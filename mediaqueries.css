@@ -130,6 +130,9 @@
       .btn-container {
         flex-wrap: wrap;
       }
+      .section_text{
+          margin-top: 50px;
+      }
       .contact-info-container{
         margin: 0;
       }
