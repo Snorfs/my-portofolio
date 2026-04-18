@@ -109,7 +109,71 @@
       .linkedin-icon{
         margin-left: 20px;
       }
-    
+ 
+@media screen and (max-width: 400px) {
+      #contact, footer {
+        height: 40vh;
+      }
+      #profile {
+        height: 83vh;
+        margin-bottom: 50px;
+      }
+      article{
+        font-size: 1rem;
+      }
+      footer nav{
+        height: fit-content;
+        margin-bottom: 2rem;
+      }
+      .about-containers, 
+      .contact-info-upper-container, 
+      .btn-container {
+        flex-wrap: wrap;
+      }
+      .contact-info-container{
+        margin: 0;
+      }
+      .contact-info-container p, 
+      .nav-link {
+        font-size: 0.5rem;
+      }
+      .experience-sub-title{
+        font-size: 1.25rem;
+      }
+      .logo{
+        font-size: 1rem;
+      }
+      .nav-link{
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+      .section_pic-container{
+        width: auto;
+        height: 46vw;
+      }
+      .section_text_p2{
+        font-size: 1rem;
+      }
+      .title{
+        font-size: 1.5rem;
+      }
+      .text-container{
+        text-align: justify;
+      }
+      .about-pic {
+        margin-left: 70px;
+        margin-top: 13px;
+        margin-bottom: 13px;
+      }
+      .profile-pic {
+        width: 240px;
+        height: 240px;
+        margin: auto;
+      }
+      .linkedin-icon{
+        margin-left: 20px;
+      }   
       
 }
 
