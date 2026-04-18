@@ -118,6 +118,9 @@
         height: 83vh;
         margin-bottom: 50px;
       }
+      #about{
+          margin-top: -50px;
+      }
       article{
         font-size: 1rem;
       }
@@ -165,7 +168,7 @@
         text-align: justify;
       }
       .about-pic {
-        margin-left: 40px;
+        margin-left: 30px;
         margin-top: 13px;
         margin-bottom: 13px;
       }
