@@ -591,22 +591,25 @@ section {
         filter 0.3s ease;
 }
 
-.upwork-icon .linkedin-icon{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 12px;
-
-}
 
 .upwork-icon {
   width: 34px;
   height: 34px;
+  cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
 }
 
 .linkedin-icon {
   width: 34px;
   height: 34px;
+  cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
 }
 
 .icon:hover {
