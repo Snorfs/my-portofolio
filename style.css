@@ -592,7 +592,11 @@ section {
 }
 
 .upwork-icon linkedin-icon{
-   display: flex;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+
 }
 
 .icon:hover {
