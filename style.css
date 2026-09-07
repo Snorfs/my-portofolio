@@ -580,6 +580,7 @@ section {
 .icon {
     width: 34px;
     height: 34px;
+   margin: auto;
 
     object-fit: contain;
 
