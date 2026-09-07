@@ -591,6 +591,10 @@ section {
         filter 0.3s ease;
 }
 
+.upwork-icon linkedin-icon{
+   display: flex;
+}
+
 .icon:hover {
     transform: translateY(-5px) scale(1.08);
 }
