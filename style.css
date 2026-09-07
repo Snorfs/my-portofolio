@@ -497,12 +497,8 @@ section {
 
 .btn-container,
 .btn-contianer {
-    display: flex;
-
-    gap: 1rem;
-
-    flex-wrap: wrap;
-   align-items: centre;   
+    display: block;
+ 
 }
 
 .btn {
