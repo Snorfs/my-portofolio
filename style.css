@@ -596,9 +596,17 @@ section {
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
+
+}
+
+.upwork-icon {
   width: 34px;
   height: 34px;
+}
 
+.linkedin-icon {
+  width: 34px;
+  height: 34px;
 }
 
 .icon:hover {
