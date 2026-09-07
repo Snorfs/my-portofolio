@@ -596,6 +596,8 @@ section {
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
+  width: 34px;
+  height: 34px;
 
 }
 
