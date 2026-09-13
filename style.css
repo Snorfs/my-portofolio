@@ -1198,8 +1198,9 @@ footer p {
    .contact-info-container img,
    .contact-info-container .icon {
     width: 45px;
-    min-width: 45px;
     height: 45px;
+    margin: 0;
+    flex: 0 0 auto;
     object-fit: contain;
    }
 
