@@ -1144,9 +1144,32 @@ footer p {
         min-width: 0;
     }
 
-    article {
-        width: 100%;
+    .article-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.8rem;
+    justify-content: flex-start;
+    text-align: left;
     }
+
+  .article {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: calc(50% - 0.9rem);
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.3s ease;
+  }
+
+  .article > div:first-child {
+    flex-shrink: 0;
+  }
+
+  .article > div:last-child {
+    width: auto;
+    margin: 0;
+  }
 
     .project-img {
         height: 220px;
