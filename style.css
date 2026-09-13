@@ -1123,6 +1123,7 @@ footer p {
 
     .btn {
         width: 190px;
+        gap: 10px;
     }
 
     .about-pic {
