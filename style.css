@@ -1175,28 +1175,40 @@ footer p {
         height: 220px;
     }
 
-  .contact-info-upper-container {
-    display: flex;
+   .contact-info-upper-container {
     flex-direction: column;
+    align-items: center;
     width: 100%;
     padding: 1rem;
     gap: 1rem;
-  }
+    box-sizing: border-box;
+   }
 
   .contact-info-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 60px 1fr;
+    display: flex;
     align-items: center;
-    column-gap: 20px;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 420px;
     padding: 1rem 2rem;
+    gap: 25px;
+    box-sizing: border-box;
   }
 
-  .contact-info-container p {
+   .contact-info-container img,
+   .contact-info-container .icon {
+    width: 45px;
+    min-width: 45px;
+    height: 45px;
+    object-fit: contain;
+   }
+
+    .contact-info-container p {
     margin: 0;
     text-align: left;
-  }
+    }
 
+  
     .contact-info-container p {
         font-size: 0.8rem;
 
