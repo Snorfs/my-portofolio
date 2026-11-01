@@ -1,399 +1,5183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mediaqueries.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="Torgio Donubari builds websites, funnels, CRM systems, course platforms and AI automations for growing businesses."
+  >
+
+  <title>Torgio Donubari | Digital Systems & AI Automation</title>
+
+  <!-- TAILWIND -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#0b0910",
+            paper: "#f8f7fa",
+            purple: {
+              300: "#c9a7ff",
+              400: "#a970ff",
+              500: "#8b5cf6",
+              600: "#7c3aed",
+              700: "#6d28d9"
+            }
+          },
+
+          fontFamily: {
+            sans: [
+              "Arial",
+              "Helvetica",
+              "sans-serif"
+            ],
+
+            mono: [
+              "Courier New",
+              "monospace"
+            ]
+          },
+
+          boxShadow: {
+            purple:
+              "0 25px 80px rgba(139,92,246,.22)"
+          }
+        }
+      }
+    };
+  </script>
+
+
+  <!-- ALL CUSTOM CSS IS INSIDE THIS HTML -->
+  <style>
+
+    :root {
+      --purple: #8b5cf6;
+      --purple-dark: #6d28d9;
+      --purple-light: #c9a7ff;
+      --ink: #0b0910;
+      --paper: #f8f7fa;
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+
+      background: var(--paper);
+      color: #111;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+
+    ::selection {
+      background: rgba(139, 92, 246, .3);
+    }
+
+
+    /* =====================================================
+       GLOBAL
+    ===================================================== */
+
+    .noise {
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: .18;
+
+      mix-blend-mode: soft-light;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.35'/%3E%3C/svg%3E");
+    }
+
+
+    .grid-bg {
+      background-image:
+
+        linear-gradient(
+          rgba(255,255,255,.045) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.045) 1px,
+          transparent 1px
+        ),
+
+        radial-gradient(
+          circle at 88% 44%,
+          rgba(139,92,246,.16),
+          transparent 32%
+        );
+
+      background-size:
+        58px 58px,
+        58px 58px,
+        auto;
+    }
+
+
+    /* =====================================================
+       REVEALS
+    ===================================================== */
+
+    .reveal {
+      opacity: 0;
+
+      transform: translateY(35px);
+
+      transition:
+        opacity .8s ease,
+        transform .8s ease;
+    }
+
+
+    .reveal.show {
+      opacity: 1;
+
+      transform: translateY(0);
+    }
+
+
+    /* =====================================================
+       HERO CHANGING TEXT
+    ===================================================== */
+
+    .hero-phrase {
+      display: block;
+
+      color: rgba(255,255,255,.30);
+
+      transition:
+        opacity .35s ease,
+        transform .35s ease,
+        filter .35s ease;
+    }
+
+
+    .hero-phrase.changing {
+      opacity: 0;
+
+      transform: translateY(24px);
+
+      filter: blur(8px);
+    }
+
+
+    /* =====================================================
+       MARQUEE
+    ===================================================== */
+
+    .marquee {
+      overflow: hidden;
+
+      white-space: nowrap;
+    }
+
+
+    .marquee-track {
+      display: flex;
+
+      width: max-content;
+
+      animation:
+        marqueeMove 27s linear infinite;
+
+      will-change: transform;
+    }
+
+
+    @keyframes marqueeMove {
+
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+
+    }
+
+
+    /* =====================================================
+       WHAT I BUILD
+    ===================================================== */
+
+    .service-panel {
+      display: grid;
+
+      grid-template-rows: 0fr;
+
+      transition:
+        grid-template-rows .45s
+        cubic-bezier(.22,.61,.36,1);
+    }
+
+
+    .service-panel > div {
+      overflow: hidden;
+    }
+
+
+    [data-service].open .service-panel {
+      grid-template-rows: 1fr;
+    }
+
+
+    .service-title {
+      transition:
+        color .3s ease;
+    }
+
+
+    .service-plus {
+      transition:
+        transform .3s ease,
+        color .3s ease;
+    }
+
+
+    [data-service].open .service-title {
+      color: var(--purple);
+    }
+
+
+    [data-service].open .service-plus {
+      transform: rotate(45deg);
+
+      color: var(--purple);
+    }
+
+
+    .service-item:hover .service-title {
+      color: var(--purple);
+    }
+
+
+    .service-chip {
+      display: inline-flex;
+
+      align-items: center;
+
+      padding: 7px 12px;
+
+      border:
+        1px solid #ddd8e5;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255,255,255,.65);
+    }
+
+
+    /* =====================================================
+       MOVING AUTOMATION FLOW
+    ===================================================== */
+
+    .flow-viewport {
+      overflow: hidden;
+
+      -webkit-mask-image:
+        linear-gradient(
+          to right,
+          transparent,
+          black 5%,
+          black 95%,
+          transparent
+        );
+
+      mask-image:
+        linear-gradient(
+          to right,
+          transparent,
+          black 5%,
+          black 95%,
+          transparent
+        );
+    }
+
+
+    .flow-track {
+      display: flex;
+
+      align-items: center;
+
+      min-width: 1350px;
+
+      animation:
+        flowMovement
+        17s
+        ease-in-out
+        infinite
+        alternate;
+
+      will-change: transform;
+    }
+
+
+    @keyframes flowMovement {
+
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-18%);
+      }
+
+    }
+
+
+    .flow-node {
+      width: 185px;
+
+      flex-shrink: 0;
+
+      padding: 20px;
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      border-radius: 18px;
+
+      background:
+        rgba(255,255,255,.035);
+
+      transition:
+        transform .35s ease,
+        border-color .35s ease,
+        background .35s ease;
+    }
+
+
+    .flow-node:hover {
+      transform: translateY(-8px);
+
+      border-color:
+        rgba(201,167,255,.6);
+
+      background:
+        rgba(139,92,246,.12);
+    }
+
+
+    .flow-node.ai-node {
+      border-color:
+        rgba(169,112,255,.35);
+
+      background:
+        rgba(139,92,246,.12);
+    }
+
+
+    .flow-connector {
+      position: relative;
+
+      flex:
+        1 0 65px;
+
+      min-width: 65px;
+
+      height: 1px;
+
+      margin: 0 10px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.12),
+          rgba(201,167,255,.65),
+          rgba(255,255,255,.12)
+        );
+    }
+
+
+    .flow-connector::after {
+      content: "";
+
+      position: absolute;
+
+      top: 50%;
+      left: 0;
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background:
+        var(--purple-light);
+
+      box-shadow:
+        0 0 18px
+        rgba(201,167,255,.95);
+
+      transform:
+        translate(-50%,-50%);
+
+      animation:
+        flowDot
+        2.1s
+        linear
+        infinite;
+    }
+
+
+    @keyframes flowDot {
+
+      0% {
+        left: 0%;
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+
+    }
+
+
+    /* =====================================================
+       SKILLS
+    ===================================================== */
+
+    .skill-line {
+      height: 3px;
+
+      transform:
+        scaleX(0);
+
+      transform-origin:
+        left center;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--purple-light)
+        );
+
+      transition:
+        transform
+        1.15s
+        cubic-bezier(.22,.61,.36,1);
+    }
+
+
+    .skills-visible .skill-line {
+      transform:
+        scaleX(var(--level));
+    }
+
+
+    /* =====================================================
+       PROJECTS
+    ===================================================== */
+
+    .project-image {
+      transition:
+        transform .7s ease,
+        filter .7s ease;
+    }
+
+
+    .project-card:hover .project-image {
+      transform:
+        scale(1.045);
+
+      filter:
+        saturate(1.08);
+    }
+
+
+    /* =====================================================
+       HORIZONTAL PROCESS
+    ===================================================== */
+
+    .process-track {
+      display: flex;
+
+      align-items: center;
+
+      height: 100%;
+
+      gap: 30px;
+
+      will-change: transform;
+    }
+
+
+    .process-card {
+      transition:
+        background .35s ease,
+        color .35s ease,
+        border-color .35s ease,
+        transform .35s ease,
+        box-shadow .35s ease;
+    }
+
+
+    .process-card:hover,
+    .process-card.active {
+
+      color: white;
+
+      background:
+        linear-gradient(
+          145deg,
+          #5b21b6,
+          #7c3aed 50%,
+          #a970ff
+        );
+
+      border-color: transparent;
+
+      transform:
+        translateY(-10px);
+
+      box-shadow:
+        0 35px 80px
+        rgba(109,40,217,.3);
+    }
+
+
+    .process-card:hover .process-muted,
+    .process-card.active .process-muted {
+      color:
+        rgba(255,255,255,.72) !important;
+    }
+
+
+    /* =====================================================
+       CUSTOM CURSOR
+    ===================================================== */
+
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      z-index: 9999;
+
+      pointer-events: none;
+
+      border-radius: 999px;
+
+      transform:
+        translate(-50%,-50%);
+    }
+
+
+    .cursor-dot {
+      width: 7px;
+      height: 7px;
+
+      background: #111;
+    }
+
+
+    .cursor-ring {
+      width: 45px;
+      height: 45px;
+
+      border:
+        1px solid rgba(17,17,17,.7);
+
+      transition:
+        width .2s ease,
+        height .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+    }
+
+
+    body.cursor-dark .cursor-dot {
+      background: white;
+    }
+
+
+    body.cursor-dark .cursor-ring {
+      border-color:
+        rgba(255,255,255,.75);
+    }
+
+
+    body.cursor-hover .cursor-ring {
+      width: 65px;
+      height: 65px;
+
+      border-color:
+        rgba(139,92,246,.9);
+
+      background:
+        rgba(139,92,246,.1);
+    }
+
+
+    /* =====================================================
+       FOOTER MOVING WORDS
+    ===================================================== */
+
+    .footer-marquee {
+      overflow: hidden;
+
+      white-space: nowrap;
+
+      border-bottom:
+        1px solid rgba(255,255,255,.1);
+    }
+
+
+    .footer-track {
+      display: flex;
+
+      width: max-content;
+
+      animation:
+        footerMove
+        25s
+        linear
+        infinite;
+    }
+
+
+    @keyframes footerMove {
+
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 1024px) {
+
+      .service-content {
+        padding-left: 0 !important;
+      }
+
+    }
+
+
+    @media (max-width: 768px) {
+
+      .cursor-dot,
+      .cursor-ring {
+        display: none;
+      }
+
+
+      .flow-track {
+        animation:
+          flowMovementMobile
+          15s
+          ease-in-out
+          infinite
+          alternate;
+      }
+
+
+      @keyframes flowMovementMobile {
+
+        from {
+          transform:
+            translateX(0);
+        }
+
+        to {
+          transform:
+            translateX(-55%);
+        }
+
+      }
+
+    }
+
+
+    @media (
+      prefers-reduced-motion:
+      reduce
+    ) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration:
+          .001ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          .001ms !important;
+
+        scroll-behavior:
+          auto !important;
+      }
+
+    }
+
+  </style>
 </head>
-<body>
-    <nav id="desktop-nav">
-        <div class="logo">Torgio Donubari</div>
+
+
+<body class="bg-paper text-neutral-950 antialiased">
+
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+
+  <!-- =====================================================
+       NAVIGATION
+  ====================================================== -->
+
+  <header
+    data-dark-section
+    class="
+      fixed
+      inset-x-0
+      top-0
+      z-50
+      border-b
+      border-white/10
+      bg-ink/80
+      text-white
+      backdrop-blur-xl
+    "
+  >
+
+    <div
+      class="
+        mx-auto
+        flex
+        h-20
+        max-w-[1500px]
+        items-center
+        justify-between
+        px-5
+        md:px-10
+      "
+    >
+
+      <a
+        href="#home"
+        class="flex items-center gap-3"
+      >
+
+        <div
+          class="
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-purple-300/40
+            bg-purple-500/10
+            font-mono
+            text-xs
+            text-purple-300
+          "
+        >
+          TD
+        </div>
+
+
         <div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Project</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+
+          <div class="text-sm font-semibold">
+            Torgio Donubari
+          </div>
+
+
+          <div
+            class="
+              mt-1
+              font-mono
+              text-[8px]
+              uppercase
+              tracking-[.2em]
+              text-white/40
+            "
+          >
+            Digital systems & automation
+          </div>
+
         </div>
-    </nav>
-    <nav id="hamburger-nav">
-        <div class="logo">Torgio Donubari</div>
-        <div class="hamburger-menu">
-            <div class="hamburger-icon" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="menu-links">
-                <li><a href="#about" onclick="toggleMenu()">About</a></li>
-                <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
-                <li><a href="#projects" onclick="toggleMenu()">Project</a></li>
-                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-            </div>
-        </div>
-    </nav>
-    <section id="profile">
-        <div class="section_pic-container">
-            <img src="./Assets/profile-pic.jpg" alt="Torgio" class="profile-pic">
-        </div>
-        <div class="section_text">
-            <p class="section_text_p1">Hi There, I'm</p>
-            <h1 class="title">Torgio Donubari</h1>
-            <p class="section_text_p2">Digital Marketer & Website Designer</p>
-            <div class="btn-contianer">
-                <button class="btn btn-color-2" onclick="window.open('./Assets/Torgio\' Resume.pdf')">
-                    Download CV
-                 </button>
-                 <button class="btn btn-color-1" onclick="location.href='#contact'">
-                    Contact Info
-                 </button>
-            </div>
-            <div id="socials-container">
-                <img src="./Assets/upwork.png" 
-                alt="Upwork" 
-                class="upwork-icon" 
-                onclick="location.href='https://www.upwork.com/freelancers/~01a189664d52ede5ea'"
-                />
-                <img src="./Assets/linkedin.png" 
-                alt="LinkedIn" 
-                class="linkedin-icon" 
-                onclick="location.href='https://www.linkedin.com/in/torgio-donubari-60322617a/'"
-                />
-            
+
+      </a>
+
+
+
+      <nav
+        class="
+          hidden
+          items-center
+          gap-9
+          text-sm
+          text-white/65
+          lg:flex
+        "
+      >
+
+        <a href="#services" class="transition hover:text-white">
+          Services
+        </a>
+
+        <a href="#work" class="transition hover:text-white">
+          Work
+        </a>
+
+        <a href="#process" class="transition hover:text-white">
+          Process
+        </a>
+
+        <a href="#about" class="transition hover:text-white">
+          About
+        </a>
+
+        <a href="#contact" class="transition hover:text-white">
+          Contact
+        </a>
+
+      </nav>
+
+
+
+      <div class="flex items-center gap-3">
+
+        <a
+          href="#contact"
+          class="
+            hidden
+            rounded-full
+            bg-white
+            px-6
+            py-3
+            text-sm
+            font-semibold
+            text-black
+            transition
+            hover:-translate-y-1
+            hover:bg-purple-300
+            md:inline-flex
+          "
+        >
+          Start a Project
+        </a>
+
+
+        <button
+          id="menuButton"
+          class="
+            flex
+            h-11
+            w-11
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/15
+            lg:hidden
+          "
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </div>
+
+
+
+    <div
+      id="mobileMenu"
+      class="
+        hidden
+        border-t
+        border-white/10
+        bg-ink
+        px-6
+        py-6
+        lg:hidden
+      "
+    >
+
+      <nav class="flex flex-col gap-5 text-white/70">
+
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+
+  <main>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section
+      id="home"
+      data-dark-section
+      class="
+        grid-bg
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-ink
+        pt-24
+        text-white
+      "
+    >
+
+      <div class="noise"></div>
+
+
+      <div
+        class="
+          absolute
+          -right-40
+          top-32
+          h-[500px]
+          w-[500px]
+          rounded-full
+          bg-purple-600/10
+          blur-[130px]
+        "
+      ></div>
+
+
+      <div
+        class="
+          relative
+          mx-auto
+          flex
+          min-h-[calc(100vh-6rem)]
+          max-w-[1500px]
+          items-center
+          px-5
+          py-16
+          md:px-10
+          lg:px-20
+        "
+      >
+
+        <div class="max-w-[1150px]">
+
+          <p
+            class="
+              reveal
+              mb-8
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.38em]
+              text-purple-300
+            "
+          >
+            Digital systems · AI automation · growth
+          </p>
+
+
+          <h1
+            class="
+              reveal
+              text-[clamp(4.5rem,10.3vw,9.5rem)]
+              font-medium
+              leading-[.84]
+              tracking-[-.075em]
+            "
+          >
+
+            <span class="block">
+              I build
+            </span>
+
+            <span class="block">
+              systems
+            </span>
+
+            <span
+              id="heroPhrase"
+              class="hero-phrase"
+            >
+              that sell & scale.
+            </span>
+
+          </h1>
+
+
+
+          <div
+            class="
+              mt-12
+              grid
+              max-w-[980px]
+              gap-10
+              lg:grid-cols-[1fr_auto]
+              lg:items-end
+            "
+          >
+
+            <p
+              class="
+                reveal
+                max-w-[760px]
+                text-lg
+                leading-8
+                text-white/55
+              "
+            >
+              Websites, funnels, CRM workflows,
+              online courses and AI automations
+              designed to remove manual work and
+              move customers forward.
+            </p>
+
+
+
+            <div class="reveal flex flex-wrap gap-3">
+
+              <a
+                href="#work"
+                class="
+                  rounded-full
+                  bg-white
+                  px-6
+                  py-4
+                  text-sm
+                  font-semibold
+                  text-black
+                  transition
+                  hover:-translate-y-1
+                  hover:bg-purple-300
+                "
+              >
+                View selected work
+              </a>
+
+
+              <a
+                href="#contact"
+                class="
+                  rounded-full
+                  border
+                  border-white/20
+                  px-6
+                  py-4
+                  text-sm
+                  font-semibold
+                  transition
+                  hover:-translate-y-1
+                  hover:border-purple-300
+                  hover:text-purple-300
+                "
+              >
+                Start a project →
+              </a>
 
             </div>
 
+          </div>
+
         </div>
+
+      </div>
+
     </section>
-    <section id="about">
-        <p class="section_text_p1">Get To Know More</p>
-        <h1 class="title">About Me</h1>
-        <div class="section-container">
-            <div class="section_pic_container">
-                <img src="./Assets/about-pic.jpeg" 
-                alt="Profile Picture" 
-                class="about-pic"/>
-            </div>
-            <div class="about-details-container">
-                <div class="about-containers">
-                    <div class="details-container">
-                        <img src="./Assets/experience.png" 
-                        alt="experience" 
-                        class="icon"/>
-                        <h3>Experience</h3>
-                        <p>4+ Years <br> Digital Marketer</p>
-                    </div>
-                    <div class="details-container">
-                        <img src="./Assets/education.png" 
-                        alt="education" 
-                        class="icon"/>
-                        <h3>Education</h3>
-                        <p>B.Sc Bachelors Degree (Accounting)</p>
-                    </div>
-                </div>
-                <div class="text-container">
-                    <p>
-                        I am a digital marketer and website designer with over 4 years of experience in the industry. I have a strong background in creating and implementing effective marketing strategies, as well as designing and developing websites that are both visually appealing and user-friendly. I am passionate about helping businesses grow and succeed online, and I am always looking for new opportunities to learn and improve my skills.
+
+
+
+    <!-- =====================================================
+         MOVING SERVICE STRIP
+    ====================================================== -->
+
+    <section
+      data-dark-section
+      class="
+        marquee
+        border-y
+        border-white/10
+        bg-[#121015]
+        py-5
+        text-white
+      "
+    >
+
+      <div class="marquee-track">
+
+        <div class="flex items-center gap-8 pr-8 text-lg md:text-xl">
+
+          <span>Available Now</span>
+          <span class="text-purple-400">●</span>
+
+          <span>AI Websites</span>
+          <span class="text-purple-400">●</span>
+
+          <span>AI Automation</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Sales Funnels</span>
+          <span class="text-purple-400">●</span>
+
+          <span>CRM Systems</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Online Courses</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Email Lifecycle</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Zapier · Make · Webhooks</span>
+          <span class="text-purple-400">●</span>
+
+        </div>
+
+
+
+        <div
+          aria-hidden="true"
+          class="flex items-center gap-8 pr-8 text-lg md:text-xl"
+        >
+
+          <span>Available Now</span>
+          <span class="text-purple-400">●</span>
+
+          <span>AI Websites</span>
+          <span class="text-purple-400">●</span>
+
+          <span>AI Automation</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Sales Funnels</span>
+          <span class="text-purple-400">●</span>
+
+          <span>CRM Systems</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Online Courses</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Email Lifecycle</span>
+          <span class="text-purple-400">●</span>
+
+          <span>Zapier · Make · Webhooks</span>
+          <span class="text-purple-400">●</span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         WHAT I BUILD
+    ====================================================== -->
+
+    <section
+      id="services"
+      class="bg-paper px-5 py-24 md:px-10 lg:py-32"
+    >
+
+      <div class="mx-auto max-w-[1500px]">
+
+        <div class="mb-14">
+
+          <p
+            class="
+              mb-4
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.3em]
+              text-neutral-400
+            "
+          >
+            / services · systems · growth
+          </p>
+
+
+          <h2
+            class="
+              text-[clamp(4rem,8vw,7.2rem)]
+              font-semibold
+              leading-[.87]
+              tracking-[-.07em]
+            "
+          >
+            What I Build.
+          </h2>
+
+        </div>
+
+
+
+        <div class="border-t border-neutral-300">
+
+
+          <!-- 01 -->
+
+          <article
+            data-service
+            class="service-item open border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span
+                class="
+                  w-12
+                  shrink-0
+                  font-mono
+                  text-[11px]
+                  text-purple-600
+                "
+              >
+                01
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                AI Websites
+              </span>
+
+
+              <span class="service-plus text-3xl font-light text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3
+                      class="
+                        mb-4
+                        text-xl
+                        font-medium
+                        tracking-[-.02em]
+                        md:text-2xl
+                      "
+                    >
+                      Websites that do more than sit there.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      Conversion-focused websites with
+                      AI-assisted experiences, smart forms,
+                      booking logic and connected automation
+                      so the website becomes part of the
+                      customer journey.
                     </p>
-                </div>
-            </div>
-        </div>
-        <img src="./Assets/arrow.png" 
-        alt="Arrow Icon" 
-        class="icon arrow" onclick="location.href='./#experience'"
-        />
-    </section>
-    <section id="experience">
-        <p class="section_text_p1">Explore My </p>
-        <h1 class="title">Experience</h1>
-        <div class="experience-details-container">
-            <div class="about-containers">
-                <div class="details-container">
-                    <h2 class="experience-sub-title">No Code Tools</h2>
-                    <div class="article-container">
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Webflow</h3>
-                                <p>Experience</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Framer</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Wordpress</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Figma</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">HTML</span>
+                      <span class="service-chip">Tailwind</span>
+                      <span class="service-chip">JavaScript</span>
+                      <span class="service-chip">WordPress</span>
+                      <span class="service-chip">WooCommerce</span>
+                      <span class="service-chip">Webflow</span>
+                      <span class="service-chip">Framer</span>
 
                     </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Responsive website build
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Smart lead capture & routing
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        CRM & automation connection
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
                 </div>
-                <div class="details-container">
-                    <h2 class="experience-sub-title">CRM & Funnels</h2>
-                    <div class="article-container">
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>GHL</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Kajabi</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Kartra</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Clickfunnels</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                         <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>Skool</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="details-container">
-                    <h2 class="experience-sub-title">Frontend Development</h2>
-                    <div class="article-container">
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>HTML</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>CSS</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>JavaScript</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="./Assets/checkmark.png" 
-                            alt="experience icon" 
-                            class="icon"
-                            />
-                            <div>
-                                <h3>TypeScript</h3>
-                                <p>Basic</p>
-                            </div>
-                        </article>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 02 -->
+
+          <article
+            data-service
+            class="service-item border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span
+                class="
+                  w-12
+                  shrink-0
+                  font-mono
+                  text-[11px]
+                  text-purple-600
+                "
+              >
+                02
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                Funnels & Landing Pages
+              </span>
+
+
+              <span class="service-plus text-3xl text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3 class="mb-4 text-xl font-medium md:text-2xl">
+                      Turn attention into the next action.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      Lead magnets, webinar journeys,
+                      consultation funnels, tripwires
+                      and sales pages built around a
+                      clear path from first click to
+                      conversion.
+                    </p>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">ClickFunnels</span>
+                      <span class="service-chip">GoHighLevel</span>
+                      <span class="service-chip">Kajabi</span>
+                      <span class="service-chip">Leadpages</span>
+                      <span class="service-chip">Meta</span>
+                      <span class="service-chip">Calendly</span>
 
                     </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Landing & sales pages
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Booking / checkout flow
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Automated follow-up
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
                 </div>
+
+              </div>
+
             </div>
+
+          </article>
+
+
+
+          <!-- 03 -->
+
+          <article
+            data-service
+            class="service-item border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span class="w-12 shrink-0 font-mono text-[11px] text-purple-600">
+                03
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                CRM & Workflow Automation
+              </span>
+
+
+              <span class="service-plus text-3xl text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3 class="mb-4 text-xl font-medium md:text-2xl">
+                      Know where every lead is and what happens next.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      I build cleaner pipelines and workflows
+                      that react to booking, cancellation,
+                      purchase, form submissions and customer
+                      behaviour automatically.
+                    </p>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">GoHighLevel</span>
+                      <span class="service-chip">ActiveCampaign</span>
+                      <span class="service-chip">HubSpot</span>
+                      <span class="service-chip">Salesforce</span>
+                      <span class="service-chip">Zapier</span>
+                      <span class="service-chip">Make</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Clean pipeline structure
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Behaviour-based workflows
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Team alerts & reminders
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 04 -->
+
+          <article
+            data-service
+            class="service-item border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span class="w-12 shrink-0 font-mono text-[11px] text-purple-600">
+                04
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                AI Agents & Automation
+              </span>
+
+
+              <span class="service-plus text-3xl text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3 class="mb-4 text-xl font-medium md:text-2xl">
+                      Use AI where it actually saves time.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      AI-assisted workflows for lead
+                      qualification, summaries, email drafts,
+                      internal knowledge and repetitive admin,
+                      with human review where needed.
+                    </p>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">ChatGPT</span>
+                      <span class="service-chip">Claude</span>
+                      <span class="service-chip">Zapier</span>
+                      <span class="service-chip">Make</span>
+                      <span class="service-chip">Webhooks</span>
+                      <span class="service-chip">APIs</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        AI workflow design
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Human-review safeguards
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Connected business tools
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 05 -->
+
+          <article
+            data-service
+            class="service-item border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span class="w-12 shrink-0 font-mono text-[11px] text-purple-600">
+                05
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                Course & Community Systems
+              </span>
+
+
+              <span class="service-plus text-3xl text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3 class="mb-4 text-xl font-medium md:text-2xl">
+                      Turn expertise into a learning experience.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      Course architecture, member areas,
+                      migrations, resources, access rules,
+                      onboarding and student journeys for
+                      online programmes.
+                    </p>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">Kajabi</span>
+                      <span class="service-chip">Skool</span>
+                      <span class="service-chip">Thinkific</span>
+                      <span class="service-chip">Circle</span>
+                      <span class="service-chip">Simplero</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Course architecture
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Member experience setup
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Access & onboarding
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 06 -->
+
+          <article
+            data-service
+            class="service-item border-b border-neutral-300"
+          >
+
+            <button
+              data-service-toggle
+              class="flex w-full items-center gap-6 py-8 text-left md:py-10"
+            >
+
+              <span class="w-12 shrink-0 font-mono text-[11px] text-purple-600">
+                06
+              </span>
+
+
+              <span
+                class="
+                  service-title
+                  flex-1
+                  text-3xl
+                  font-semibold
+                  tracking-[-.04em]
+                  md:text-5xl
+                "
+              >
+                Email & Lifecycle Marketing
+              </span>
+
+
+              <span class="service-plus text-3xl text-neutral-500">
+                +
+              </span>
+
+            </button>
+
+
+            <div class="service-panel">
+
+              <div>
+
+                <div
+                  class="
+                    service-content
+                    grid
+                    gap-12
+                    pb-12
+                    pl-[72px]
+                    pr-4
+                    lg:grid-cols-[1.1fr_.9fr]
+                  "
+                >
+
+                  <div>
+
+                    <h3 class="mb-4 text-xl font-medium md:text-2xl">
+                      Follow-up that changes with the customer.
+                    </h3>
+
+
+                    <p class="max-w-xl text-lg leading-8 text-neutral-500">
+                      Welcome, nurture, booking,
+                      onboarding and re-engagement
+                      sequences connected to customer
+                      actions and lifecycle stages.
+                    </p>
+
+
+                    <div
+                      class="
+                        mt-7
+                        flex
+                        flex-wrap
+                        gap-2
+                        font-mono
+                        text-[10px]
+                        text-neutral-500
+                      "
+                    >
+
+                      <span class="service-chip">ActiveCampaign</span>
+                      <span class="service-chip">GoHighLevel</span>
+                      <span class="service-chip">Kajabi</span>
+                      <span class="service-chip">Mailchimp</span>
+                      <span class="service-chip">SMS</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div
+                    class="
+                      relative
+                      lg:border-l
+                      lg:border-neutral-200
+                      lg:pl-12
+                    "
+                  >
+
+                    <div
+                      class="
+                        absolute
+                        right-0
+                        top-0
+                        hidden
+                        h-8
+                        w-[2px]
+                        bg-purple-500
+                        lg:block
+                      "
+                    ></div>
+
+
+                    <p
+                      class="
+                        mb-6
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.25em]
+                        text-neutral-400
+                      "
+                    >
+                      What you get
+                    </p>
+
+
+                    <ul class="space-y-4 text-lg">
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Lifecycle sequences
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Behaviour segmentation
+                      </li>
+
+                      <li class="flex gap-4">
+                        <span class="text-purple-600">•</span>
+                        Campaign QA & testing
+                      </li>
+
+                    </ul>
+
+
+                    <a
+                      href="#contact"
+                      class="
+                        mt-8
+                        inline-flex
+                        border-b
+                        border-purple-300
+                        pb-2
+                        font-mono
+                        text-[10px]
+                        uppercase
+                        tracking-[.18em]
+                        text-purple-700
+                      "
+                    >
+                      Get this built →
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
         </div>
-        <img src="./Assets/arrow.png" 
-        alt="Arrow Icon" 
-        class="icon arrow" onclick="location.href='./#projects'"
-        />
+
+      </div>
+
     </section>
-    <section id="projects">
-       <p class="section_text_p1">Browse My Recent</p>
-       <h1 class="title">Projects</h1>
-       <div class="experience-details-container">
-            <div class="about-containers">
-            <div class="details-container color-container">
-             <div class="article-container">
-                <img src="./Assets/project-1.png" 
-                alt="Project 1" 
-                class="project-img"
-                />
-             </div>
-             <h2 class="experience-sub-title project-title">Project One</h2>
-             <div class="btn-container">
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://www.joyfullifefunctionalhealth.com'">
-                    Live Link
-                </button>
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://drive.google.com/drive/folders/1IahVjNi9u8KLy5sAPf6dPwQhwAHzJ3Cr?usp=sharing'">
-                    More Designs
-                </button>
-             </div>
-            </div>
-            <div class="details-container color-container">
-             <div class="article-container">
-                <img src="./Assets/project-2.png" 
-                alt="Project 2" 
-                class="project-img"
-                />
-             </div>
-             <h2 class="experience-sub-title project-title">Project Two</h2>
-             <div class="btn-container">
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://www.rebornwithmichael.com'">
-                    Live Link
-                </button>
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://drive.google.com/drive/folders/1IahVjNi9u8KLy5sAPf6dPwQhwAHzJ3Cr?usp=sharing'">
-                    More Designs
-                </button>
-             </div>
-            </div>
-            <div class="details-container color-container">
-             <div class="article-container">
-                <img src="./Assets/project-3.png" 
-                alt="Project 3" 
-                class="project-img"
-                />
-             </div>
-             <h2 class="experience-sub-title project-title">Project Three</h2>
-             <div class="btn-container">
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='http://www.rebornwithmichael.com/peaceful-path'">
-                    Live Link
-                </button>
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://drive.google.com/drive/folders/1IahVjNi9u8KLy5sAPf6dPwQhwAHzJ3Cr?usp=sharing'">
-                    More Designs
-                </button>
-             </div>
-            </div>
-            <div class="details-container color-container">
-             <div class="article-container">
-                <img src="./Assets/project-4.png" 
-                alt="Project 4" 
-                class="project-img"
-                />
-             </div>
-             <h2 class="experience-sub-title project-title">Project Four</h2>
-             <div class="btn-container">
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://www.revive-systems.net/revive-system'">
-                    Live Link
-                </button>
-                <button 
-                class="btn btn-color-2 project-btn" 
-                onclick="location.href='https://drive.google.com/drive/folders/1IahVjNi9u8KLy5sAPf6dPwQhwAHzJ3Cr?usp=sharing'">
-                    More Designs
-                </button>
-             </div>
-            </div>
-            </div>
+
+
+
+    <!-- =====================================================
+         AUTOMATION FLOW
+    ====================================================== -->
+
+    <section
+      data-dark-section
+      class="
+        relative
+        overflow-hidden
+        bg-ink
+        px-5
+        py-24
+        text-white
+        md:px-10
+        lg:py-32
+      "
+    >
+
+      <div class="noise"></div>
+
+
+      <div class="relative mx-auto max-w-[1500px]">
+
+        <div
+          class="
+            mb-14
+            grid
+            gap-8
+            lg:grid-cols-[1fr_.7fr]
+            lg:items-end
+          "
+        >
+
+          <div>
+
+            <p
+              class="
+                mb-4
+                font-mono
+                text-[11px]
+                uppercase
+                tracking-[.3em]
+                text-purple-300
+              "
+            >
+              / connected systems
+            </p>
+
+
+            <h2
+              class="
+                max-w-4xl
+                text-[clamp(3.5rem,6vw,6.4rem)]
+                font-medium
+                leading-[.93]
+                tracking-[-.06em]
+              "
+            >
+              Build systems that keep moving.
+            </h2>
+
+          </div>
+
+
+          <p
+            class="
+              max-w-xl
+              text-lg
+              leading-8
+              text-white/45
+              lg:justify-self-end
+            "
+          >
+            One action should trigger the next.
+
+            Leads move from advertising to qualification,
+            funnel, CRM, follow-up and team action without
+            someone manually pushing every step.
+          </p>
+
         </div>
-        <img src="./Assets/arrow.png" 
-        alt="Arrow Icon" 
-        class="icon arrow" onclick="location.href='./#contact'"
-        />
-    </section>
-    <section id="contact">
-        <p class="section_text_p1">Get In Touch</p>
-        <h1 class="title">Contact Me</h1>
-        <div class="contact-info-upper-container">
-            <div class="contact-info-container">
-                <img src="./Assets/email.png" 
-                alt="Email Icon" 
-                class="icon contact-icon email-icon"
-                />
-                <p><a href="mailto:torgioarmani@gmail.com">torgioarmani@gmail.com</a></p>
+
+
+
+        <div
+          class="
+            flow-viewport
+            rounded-[28px]
+            border
+            border-white/10
+            bg-white/[.025]
+            p-8
+          "
+        >
+
+          <div class="flow-track">
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">◎</span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  TRAFFIC
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Ads / Website
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Visitor enters
+              </p>
+
             </div>
-             <div class="contact-info-container">
-                <img src="./Assets/linkedin.png" 
-                alt="Email Icon" 
-                class="icon contact-icon linkedin-icon"
-                />
-                <p><a href="https://www.linkedin.com/in/torgio-donubari-60322617a/">LinkedIn Profile</a></p>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">◇</span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  LEAD
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Lead Capture
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Form · quiz · booking
+              </p>
+
             </div>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node ai-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl text-purple-300">
+                  ✦
+                </span>
+
+                <span class="font-mono text-[9px] text-purple-300/60">
+                  AI
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Qualify / Process
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Summary · route · draft
+              </p>
+
+            </div>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">
+                  ↗
+                </span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  FUNNEL
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Offer Journey
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Page · call · checkout
+              </p>
+
+            </div>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">
+                  ▦
+                </span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  CRM
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                CRM Update
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Stage · owner · tags
+              </p>
+
+            </div>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">
+                  ✉
+                </span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  FOLLOW-UP
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Email / SMS
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Nurture · reminders
+              </p>
+
+            </div>
+
+
+            <div class="flow-connector"></div>
+
+
+
+            <div class="flow-node">
+
+              <div class="mb-8 flex items-center justify-between">
+
+                <span class="text-xl">
+                  ✓
+                </span>
+
+                <span class="font-mono text-[9px] text-white/30">
+                  TEAM
+                </span>
+
+              </div>
+
+
+              <h3 class="font-semibold">
+                Notify & Measure
+              </h3>
+
+
+              <p class="mt-2 text-xs text-white/40">
+                Tasks · alerts · data
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+
+
+
+        <div
+          class="
+            mt-8
+            flex
+            flex-wrap
+            gap-x-12
+            gap-y-5
+            text-sm
+            text-white/45
+          "
+        >
+
+          <span>
+            <strong class="mr-2 text-2xl text-white">
+              7
+            </strong>
+
+            connected stages
+          </span>
+
+
+          <span>
+            <strong class="mr-2 text-2xl text-white">
+              24/7
+            </strong>
+
+            workflow logic
+          </span>
+
+
+          <span>
+            <strong class="mr-2 text-2xl text-white">
+              1
+            </strong>
+
+            customer journey
+          </span>
+
+        </div>
+
+      </div>
+
     </section>
-    <footer>
-        <nav>
-            <div class="nav-links-container">
-             <ul class="nav-links">
-                <li class="footer-text"><a href="#about">About</a></li>
-                <li class="footer-text"><a href="#experience">Experience</a></li>
-                <li class="footer-text"><a href="#projects">Project</a></li>
-                <li class="footer-text"><a href="#contact">Contact</a></li>
-             </ul>
+
+
+
+    <!-- =====================================================
+         SKILLS & PROFICIENCY
+    ====================================================== -->
+
+    <section
+      id="skills"
+      class="bg-white px-5 py-24 md:px-10 lg:py-32"
+    >
+
+      <div
+        id="skillsBlock"
+        class="mx-auto max-w-[1500px]"
+      >
+
+        <div class="mb-16">
+
+          <p
+            class="
+              mb-4
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.3em]
+              text-neutral-400
+            "
+          >
+            / tools & proficiency
+          </p>
+
+
+          <h2
+            class="
+              text-4xl
+              font-semibold
+              tracking-[-.04em]
+              md:text-6xl
+            "
+          >
+            Tools I work in.
+          </h2>
+
+        </div>
+
+
+
+        <div
+          class="
+            grid
+            gap-x-12
+            gap-y-10
+            lg:grid-cols-2
+          "
+        >
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>GoHighLevel / CRM Automation</span>
+              <span class="font-mono text-xs text-neutral-400">95%</span>
             </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.95"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>Kajabi / Course Systems</span>
+              <span class="font-mono text-xs text-neutral-400">93%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.93"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>WordPress / WooCommerce</span>
+              <span class="font-mono text-xs text-neutral-400">91%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.91"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>Funnels & Landing Pages</span>
+              <span class="font-mono text-xs text-neutral-400">92%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.92"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>ActiveCampaign / Lifecycle</span>
+              <span class="font-mono text-xs text-neutral-400">86%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.86"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>AI & Prompt Engineering</span>
+              <span class="font-mono text-xs text-neutral-400">90%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.90"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>HTML / Tailwind / CSS</span>
+              <span class="font-mono text-xs text-neutral-400">88%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.88"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>JavaScript</span>
+              <span class="font-mono text-xs text-neutral-400">80%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.80"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>Zapier / Make / Webhooks</span>
+              <span class="font-mono text-xs text-neutral-400">89%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.89"></div>
+            </div>
+
+          </div>
+
+
+
+          <div>
+
+            <div class="mb-3 flex justify-between">
+              <span>Skool / Thinkific / Circle</span>
+              <span class="font-mono text-xs text-neutral-400">90%</span>
+            </div>
+
+            <div class="h-[3px] bg-neutral-200">
+              <div class="skill-line" style="--level:.90"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SYSTEMS THAT ACTUALLY WORK
+    ====================================================== -->
+
+    <section
+      id="work"
+      class="bg-[#f7f6f8] px-5 py-24 md:px-10 lg:py-32"
+    >
+
+      <div class="mx-auto max-w-[1500px]">
+
+        <div class="mb-16 max-w-5xl">
+
+          <p
+            class="
+              mb-5
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.32em]
+              text-neutral-400
+            "
+          >
+            / selected work
+          </p>
+
+
+          <h2
+            class="
+              text-[clamp(4.5rem,8vw,8rem)]
+              font-semibold
+              leading-[.86]
+              tracking-[-.075em]
+            "
+          >
+            Systems That
+            <br>
+            Actually Work.
+          </h2>
+
+
+          <p
+            class="
+              mt-7
+              max-w-2xl
+              text-lg
+              leading-8
+              text-neutral-500
+            "
+          >
+            A few of the websites, funnels and digital systems
+            I’ve built. Open any project to see the live experience.
+          </p>
+
+        </div>
+
+
+
+        <div class="grid gap-7 lg:grid-cols-2">
+
+          <a
+            href="https://www.joyfullifefunctionalhealth.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="
+              project-card
+              group
+              overflow-hidden
+              rounded-[30px]
+              border
+              border-neutral-200
+              bg-white
+              transition
+              duration-500
+              hover:-translate-y-2
+              hover:shadow-[0_30px_80px_rgba(38,20,55,.12)]
+            "
+          >
+
+            <div class="relative overflow-hidden bg-[#111014] p-4 md:p-6">
+
+              <div
+                class="
+                  absolute
+                  left-7
+                  top-7
+                  z-10
+                  rounded-full
+                  bg-purple-600
+                  px-4
+                  py-2
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.14em]
+                  text-white
+                "
+              >
+                Website / Health
+              </div>
+
+
+              <img
+                src="/Images/project-1.png"
+                alt="Joyful Life Functional Health Website"
+                class="
+                  aspect-[16/10]
+                  w-full
+                  rounded-[18px]
+                  object-cover
+                  transition
+                  duration-700
+                  ease-out
+                  group-hover:scale-[1.045]
+                  group-hover:saturate-[1.08]
+                "
+              >
+
+
+              <div
+                class="
+                  absolute
+                  bottom-8
+                  right-8
+                  hidden
+                  rounded-xl
+                  border
+                  border-white/15
+                  bg-black/50
+                  px-4
+                  py-3
+                  text-white
+                  backdrop-blur-lg
+                  md:block
+                "
+              >
+
+                <div class="font-mono text-[8px] uppercase tracking-[.18em] text-white/45">
+                  Build
+                </div>
+
+                <div class="mt-1 text-sm font-medium">
+                  Website Experience
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-7 md:p-9">
+
+              <div class="flex items-start justify-between gap-5">
+
+                <div>
+
+                  <h3 class="text-2xl font-semibold tracking-[-.035em] md:text-3xl">
+                    Joyful Life Functional Health
+                  </h3>
+
+                  <p class="mt-3 max-w-xl leading-7 text-neutral-500">
+                    Website implementation and digital experience
+                    work for a health-focused business.
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="
+                    text-2xl
+                    transition
+                    duration-300
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                    group-hover:text-purple-600
+                  "
+                >
+                  ↗
+                </span>
+
+              </div>
+
+
+              <div class="mt-6 flex flex-wrap gap-2 font-mono text-[9px]">
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Website
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Customer Journey
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Health
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+
+          <a
+            href="https://www.rebornwithmichael.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="
+              project-card
+              group
+              overflow-hidden
+              rounded-[30px]
+              border
+              border-neutral-200
+              bg-white
+              transition
+              duration-500
+              hover:-translate-y-2
+              hover:shadow-[0_30px_80px_rgba(38,20,55,.12)]
+            "
+          >
+
+            <div class="relative overflow-hidden bg-[#111014] p-4 md:p-6">
+
+              <div
+                class="
+                  absolute
+                  left-7
+                  top-7
+                  z-10
+                  rounded-full
+                  bg-purple-600
+                  px-4
+                  py-2
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.14em]
+                  text-white
+                "
+              >
+                Funnel / Coaching
+              </div>
+
+
+              <img
+                src="/Images/project-2.png"
+                alt="Reborn with Michael"
+                class="
+                  aspect-[16/10]
+                  w-full
+                  rounded-[18px]
+                  object-cover
+                  transition
+                  duration-700
+                  ease-out
+                  group-hover:scale-[1.045]
+                  group-hover:saturate-[1.08]
+                "
+              >
+
+
+              <div
+                class="
+                  absolute
+                  bottom-8
+                  right-8
+                  hidden
+                  rounded-xl
+                  border
+                  border-white/15
+                  bg-black/50
+                  px-4
+                  py-3
+                  text-white
+                  backdrop-blur-lg
+                  md:block
+                "
+              >
+
+                <div class="font-mono text-[8px] uppercase tracking-[.18em] text-white/45">
+                  Focus
+                </div>
+
+                <div class="mt-1 text-sm font-medium">
+                  Lead Journey
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-7 md:p-9">
+
+              <div class="flex items-start justify-between gap-5">
+
+                <div>
+
+                  <h3 class="text-2xl font-semibold tracking-[-.035em] md:text-3xl">
+                    Reborn with Michael
+                  </h3>
+
+                  <p class="mt-3 max-w-xl leading-7 text-neutral-500">
+                    Funnel and customer journey work designed
+                    to guide prospects towards the next step.
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="
+                    text-2xl
+                    transition
+                    duration-300
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                    group-hover:text-purple-600
+                  "
+                >
+                  ↗
+                </span>
+
+              </div>
+
+
+              <div class="mt-6 flex flex-wrap gap-2 font-mono text-[9px]">
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Funnel
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Coaching
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Conversion
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+
+          <a
+            href="http://www.rebornwithmichael.com/peaceful-path"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="
+              project-card
+              group
+              overflow-hidden
+              rounded-[30px]
+              border
+              border-neutral-200
+              bg-white
+              transition
+              duration-500
+              hover:-translate-y-2
+              hover:shadow-[0_30px_80px_rgba(38,20,55,.12)]
+            "
+          >
+
+            <div class="relative overflow-hidden bg-[#111014] p-4 md:p-6">
+
+              <div
+                class="
+                  absolute
+                  left-7
+                  top-7
+                  z-10
+                  rounded-full
+                  bg-purple-600
+                  px-4
+                  py-2
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.14em]
+                  text-white
+                "
+              >
+                Landing Page / Offer
+              </div>
+
+
+              <img
+                src="/Images/project-3.png"
+                alt="Peaceful Path Landing Page"
+                class="
+                  aspect-[16/10]
+                  w-full
+                  rounded-[18px]
+                  object-cover
+                  transition
+                  duration-700
+                  ease-out
+                  group-hover:scale-[1.045]
+                  group-hover:saturate-[1.08]
+                "
+              >
+
+
+              <div
+                class="
+                  absolute
+                  bottom-8
+                  right-8
+                  hidden
+                  rounded-xl
+                  border
+                  border-white/15
+                  bg-black/50
+                  px-4
+                  py-3
+                  text-white
+                  backdrop-blur-lg
+                  md:block
+                "
+              >
+
+                <div class="font-mono text-[8px] uppercase tracking-[.18em] text-white/45">
+                  Goal
+                </div>
+
+                <div class="mt-1 text-sm font-medium">
+                  Offer Conversion
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-7 md:p-9">
+
+              <div class="flex items-start justify-between gap-5">
+
+                <div>
+
+                  <h3 class="text-2xl font-semibold tracking-[-.035em] md:text-3xl">
+                    Peaceful Path
+                  </h3>
+
+                  <p class="mt-3 max-w-xl leading-7 text-neutral-500">
+                    Landing page implementation built around
+                    clearer messaging and a stronger offer journey.
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="
+                    text-2xl
+                    transition
+                    duration-300
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                    group-hover:text-purple-600
+                  "
+                >
+                  ↗
+                </span>
+
+              </div>
+
+
+              <div class="mt-6 flex flex-wrap gap-2 font-mono text-[9px]">
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Landing Page
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Offer
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Funnel
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+
+          <a
+            href="https://www.revive-systems.net/revive-system"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="
+              project-card
+              group
+              overflow-hidden
+              rounded-[30px]
+              border
+              border-neutral-200
+              bg-white
+              transition
+              duration-500
+              hover:-translate-y-2
+              hover:shadow-[0_30px_80px_rgba(38,20,55,.12)]
+            "
+          >
+
+            <div class="relative overflow-hidden bg-[#111014] p-4 md:p-6">
+
+              <div
+                class="
+                  absolute
+                  left-7
+                  top-7
+                  z-10
+                  rounded-full
+                  bg-purple-600
+                  px-4
+                  py-2
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.14em]
+                  text-white
+                "
+              >
+                Website / System
+              </div>
+
+
+              <img
+                src="/Images/project-4.png"
+                alt="Revive System"
+                class="
+                  aspect-[16/10]
+                  w-full
+                  rounded-[18px]
+                  object-cover
+                  transition
+                  duration-700
+                  ease-out
+                  group-hover:scale-[1.045]
+                  group-hover:saturate-[1.08]
+                "
+              >
+
+
+              <div
+                class="
+                  absolute
+                  bottom-8
+                  right-8
+                  hidden
+                  rounded-xl
+                  border
+                  border-white/15
+                  bg-black/50
+                  px-4
+                  py-3
+                  text-white
+                  backdrop-blur-lg
+                  md:block
+                "
+              >
+
+                <div class="font-mono text-[8px] uppercase tracking-[.18em] text-white/45">
+                  Build
+                </div>
+
+                <div class="mt-1 text-sm font-medium">
+                  Digital System
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-7 md:p-9">
+
+              <div class="flex items-start justify-between gap-5">
+
+                <div>
+
+                  <h3 class="text-2xl font-semibold tracking-[-.035em] md:text-3xl">
+                    Revive System
+                  </h3>
+
+                  <p class="mt-3 max-w-xl leading-7 text-neutral-500">
+                    Website and system implementation supporting
+                    an online service and customer experience.
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="
+                    text-2xl
+                    transition
+                    duration-300
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                    group-hover:text-purple-600
+                  "
+                >
+                  ↗
+                </span>
+
+              </div>
+
+
+              <div class="mt-6 flex flex-wrap gap-2 font-mono text-[9px]">
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Website
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Systems
+                </span>
+
+                <span class="rounded-full bg-purple-50 px-3 py-2 text-purple-700">
+                  Implementation
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        </div>
+
+
+
+        <div class="mt-10 flex flex-wrap items-center justify-between gap-6">
+
+          <p class="max-w-xl text-neutral-500">
+            Some of my CRM, automation and course-platform
+            work is private or covered by NDA.
+          </p>
+
+
+          <a
+            href="https://drive.google.com/drive/folders/1IahVjNi9u8KLy5sAPf6dPwQhwAHzJ3Cr?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="
+              inline-flex
+              rounded-full
+              bg-neutral-950
+              px-6
+              py-4
+              text-sm
+              font-semibold
+              text-white
+              transition
+              hover:-translate-y-1
+              hover:bg-purple-600
+            "
+          >
+            View more work →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PROCESS
+         ONLY SECTION CHANGED
+    ====================================================== -->
+
+    <section
+      id="process"
+      class="relative bg-paper"
+    >
+
+      <div
+        id="processSticky"
+        class="
+          sticky
+          top-0
+          flex
+          h-screen
+          flex-col
+          overflow-hidden
+          bg-paper
+        "
+      >
+
+        <!-- PROCESS HEADER -->
+
+        <div
+          class="
+            mx-auto
+            w-full
+            max-w-[1500px]
+            shrink-0
+            px-5
+            pt-16
+            md:px-10
+            md:pt-20
+          "
+        >
+
+          <p
+            class="
+              mb-3
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.3em]
+              text-neutral-400
+            "
+          >
+            / how it works
+          </p>
+
+
+          <h2
+            class="
+              text-[clamp(3.5rem,6.7vw,6.7rem)]
+              font-semibold
+              leading-[.88]
+              tracking-[-.07em]
+            "
+          >
+            From Brief to Built.
+          </h2>
+
+
+          <p
+            class="
+              mt-4
+              text-base
+              text-neutral-500
+              md:text-lg
+            "
+          >
+            Scroll to move through the process.
+          </p>
+
+        </div>
+
+
+
+        <!-- PROCESS CARD VIEWPORT -->
+
+        <div
+          class="
+            min-h-0
+            flex-1
+            overflow-hidden
+            py-8
+            md:py-10
+          "
+        >
+
+          <div
+            id="processTrack"
+            class="
+              process-track
+              h-full
+              px-5
+              md:px-10
+            "
+          >
+
+
+            <!-- PHASE 01 -->
+
+            <article
+              class="
+                process-card
+                active
+                flex
+                h-full
+                max-h-[520px]
+                min-h-[360px]
+                min-w-[78vw]
+                flex-col
+                justify-between
+                rounded-[32px]
+                border
+                border-neutral-200
+                bg-white
+                p-7
+                md:min-w-[520px]
+                md:p-10
+              "
+            >
+
+              <div>
+
+                <div
+                  class="
+                    flex
+                    justify-between
+                    font-mono
+                    text-[10px]
+                    uppercase
+                  "
+                >
+
+                  <span>Phase 01</span>
+
+                  <span class="process-muted text-neutral-400">
+                    30 min
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-3xl">
+                  ◎
+                </div>
+
+
+                <h3
+                  class="
+                    mt-6
+                    text-3xl
+                    font-semibold
+                    tracking-[-.03em]
+                    md:text-4xl
+                  "
+                >
+                  Discovery
+                </h3>
+
+
+                <p
+                  class="
+                    process-muted
+                    mt-4
+                    max-w-md
+                    text-base
+                    leading-7
+                    text-neutral-500
+                    md:text-lg
+                    md:leading-8
+                  "
+                >
+                  We map the offer, customer journey,
+                  existing systems, bottlenecks and the
+                  real outcome the build needs to create.
+                </p>
+
+              </div>
+
+            </article>
+
+
+
+            <!-- PHASE 02 -->
+
+            <article
+              class="
+                process-card
+                flex
+                h-full
+                max-h-[520px]
+                min-h-[360px]
+                min-w-[78vw]
+                flex-col
+                justify-between
+                rounded-[32px]
+                border
+                border-neutral-200
+                bg-white
+                p-7
+                md:min-w-[520px]
+                md:p-10
+              "
+            >
+
+              <div>
+
+                <div
+                  class="
+                    flex
+                    justify-between
+                    font-mono
+                    text-[10px]
+                    uppercase
+                  "
+                >
+
+                  <span>Phase 02</span>
+
+                  <span class="process-muted text-neutral-400">
+                    24–48 hrs
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-3xl">
+                  ▦
+                </div>
+
+
+                <h3
+                  class="
+                    mt-6
+                    text-3xl
+                    font-semibold
+                    tracking-[-.03em]
+                    md:text-4xl
+                  "
+                >
+                  Blueprint
+                </h3>
+
+
+                <p
+                  class="
+                    process-muted
+                    mt-4
+                    max-w-md
+                    text-base
+                    leading-7
+                    text-neutral-500
+                    md:text-lg
+                    md:leading-8
+                  "
+                >
+                  Pages, triggers, actions,
+                  integrations and customer logic
+                  are mapped before the build begins.
+                </p>
+
+              </div>
+
+            </article>
+
+
+
+            <!-- PHASE 03 -->
+
+            <article
+              class="
+                process-card
+                flex
+                h-full
+                max-h-[520px]
+                min-h-[360px]
+                min-w-[78vw]
+                flex-col
+                justify-between
+                rounded-[32px]
+                border
+                border-neutral-200
+                bg-white
+                p-7
+                md:min-w-[520px]
+                md:p-10
+              "
+            >
+
+              <div>
+
+                <div
+                  class="
+                    flex
+                    justify-between
+                    font-mono
+                    text-[10px]
+                    uppercase
+                  "
+                >
+
+                  <span>Phase 03</span>
+
+                  <span class="process-muted text-neutral-400">
+                    3–7 days
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-3xl">
+                  ⚙
+                </div>
+
+
+                <h3
+                  class="
+                    mt-6
+                    text-3xl
+                    font-semibold
+                    tracking-[-.03em]
+                    md:text-4xl
+                  "
+                >
+                  Build & Test
+                </h3>
+
+
+                <p
+                  class="
+                    process-muted
+                    mt-4
+                    max-w-md
+                    text-base
+                    leading-7
+                    text-neutral-500
+                    md:text-lg
+                    md:leading-8
+                  "
+                >
+                  The system is built,
+                  connected and tested across
+                  the scenarios customers and
+                  your team will actually use.
+                </p>
+
+              </div>
+
+            </article>
+
+
+
+            <!-- PHASE 04 -->
+
+            <article
+              class="
+                process-card
+                flex
+                h-full
+                max-h-[520px]
+                min-h-[360px]
+                min-w-[78vw]
+                flex-col
+                justify-between
+                rounded-[32px]
+                border
+                border-neutral-200
+                bg-white
+                p-7
+                md:min-w-[520px]
+                md:p-10
+              "
+            >
+
+              <div>
+
+                <div
+                  class="
+                    flex
+                    justify-between
+                    font-mono
+                    text-[10px]
+                    uppercase
+                  "
+                >
+
+                  <span>Phase 04</span>
+
+                  <span class="process-muted text-neutral-400">
+                    QA
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-3xl">
+                  ✓
+                </div>
+
+
+                <h3
+                  class="
+                    mt-6
+                    text-3xl
+                    font-semibold
+                    tracking-[-.03em]
+                    md:text-4xl
+                  "
+                >
+                  Review
+                </h3>
+
+
+                <p
+                  class="
+                    process-muted
+                    mt-4
+                    max-w-md
+                    text-base
+                    leading-7
+                    text-neutral-500
+                    md:text-lg
+                    md:leading-8
+                  "
+                >
+                  Forms, mobile layouts,
+                  emails, automation paths,
+                  checkout, access and links
+                  are checked end to end.
+                </p>
+
+              </div>
+
+            </article>
+
+
+
+            <!-- PHASE 05 -->
+
+            <article
+              class="
+                process-card
+                flex
+                h-full
+                max-h-[520px]
+                min-h-[360px]
+                min-w-[78vw]
+                flex-col
+                justify-between
+                rounded-[32px]
+                border
+                border-neutral-200
+                bg-white
+                p-7
+                md:min-w-[520px]
+                md:p-10
+              "
+            >
+
+              <div>
+
+                <div
+                  class="
+                    flex
+                    justify-between
+                    font-mono
+                    text-[10px]
+                    uppercase
+                  "
+                >
+
+                  <span>Phase 05</span>
+
+                  <span class="process-muted text-neutral-400">
+                    Go Live
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-3xl">
+                  ↗
+                </div>
+
+
+                <h3
+                  class="
+                    mt-6
+                    text-3xl
+                    font-semibold
+                    tracking-[-.03em]
+                    md:text-4xl
+                  "
+                >
+                  Launch
+                </h3>
+
+
+                <p
+                  class="
+                    process-muted
+                    mt-4
+                    max-w-md
+                    text-base
+                    leading-7
+                    text-neutral-500
+                    md:text-lg
+                    md:leading-8
+                  "
+                >
+                  We switch the system live,
+                  monitor the important pieces
+                  and make sure you understand
+                  how to manage.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <div class="w-[15vw] shrink-0"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ABOUT
+    ====================================================== -->
+
+    <section
+      id="about"
+      class="bg-white px-5 py-24 md:px-10 lg:py-32"
+    >
+
+      <div
+        class="
+          mx-auto
+          grid
+          max-w-[1500px]
+          gap-12
+          lg:grid-cols-[.9fr_1.1fr]
+        "
+      >
+
+        <div>
+
+          <p
+            class="
+              mb-4
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.3em]
+              text-neutral-400
+            "
+          >
+            / about
+          </p>
+
+
+          <h2
+            class="
+              text-[clamp(4rem,7vw,7rem)]
+              font-semibold
+              leading-[.88]
+              tracking-[-.07em]
+            "
+          >
+            The Thinker
+            <br>
+
+            Behind the
+            <br>
+
+            <span class="text-purple-600">
+              Tech.
+            </span>
+          </h2>
+
+
+          <p
+            class="
+              mt-8
+              max-w-xl
+              text-lg
+              leading-8
+              text-neutral-500
+            "
+          >
+            I’m Torgio Donubari.
+
+            I work across websites,
+            funnels, CRM, course platforms,
+            email marketing and automation.
+
+            My focus is connecting the
+            separate pieces of an online
+            business into systems that
+            are easier to run and easier
+            for customers to move through.
+          </p>
+
+
+          <div
+            class="
+              mt-10
+              grid
+              grid-cols-2
+              overflow-hidden
+              rounded-[24px]
+              border
+              border-neutral-200
+            "
+          >
+
+            <div
+              class="
+                border-b
+                border-r
+                border-neutral-200
+                p-5
+              "
+            >
+
+              <div
+                class="
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.18em]
+                  text-neutral-400
+                "
+              >
+                Based in
+              </div>
+
+              <div class="mt-3 font-semibold">
+                Nigeria
+              </div>
+
+            </div>
+
+
+            <div
+              class="
+                border-b
+                border-neutral-200
+                p-5
+              "
+            >
+
+              <div
+                class="
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.18em]
+                  text-neutral-400
+                "
+              >
+                Experience
+              </div>
+
+              <div class="mt-3 font-semibold">
+                4+ Years
+              </div>
+
+            </div>
+
+
+            <div
+              class="
+                border-r
+                border-neutral-200
+                p-5
+              "
+            >
+
+              <div
+                class="
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.18em]
+                  text-neutral-400
+                "
+              >
+                Work
+              </div>
+
+              <div class="mt-3 font-semibold">
+                Global Clients
+              </div>
+
+            </div>
+
+
+            <div class="p-5">
+
+              <div
+                class="
+                  font-mono
+                  text-[9px]
+                  uppercase
+                  tracking-[.18em]
+                  text-neutral-400
+                "
+              >
+                Focus
+              </div>
+
+              <div class="mt-3 font-semibold">
+                Systems & Growth
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div
+          class="
+            relative
+            overflow-hidden
+            rounded-[34px]
+            bg-neutral-200
+          "
+        >
+
+          <img
+            src="/Images/Torgio.png"
+            alt="Torgio Donubari"
+            class="
+              aspect-[4/5]
+              h-full
+              w-full
+              object-cover
+            "
+          >
+
+
+          <div
+            class="
+              absolute
+              inset-x-0
+              bottom-0
+              bg-gradient-to-t
+              from-black/90
+              to-transparent
+              p-8
+              pt-28
+              text-white
+            "
+          >
+
+            <div class="text-2xl font-semibold">
+              Torgio Donubari
+            </div>
+
+
+            <div class="mt-2 text-sm text-white/55">
+              Digital Systems & AI Automation Specialist
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
+
+    <section
+      id="contact"
+      class="bg-paper px-5 py-24 md:px-10 lg:py-32"
+    >
+
+      <div class="mx-auto max-w-[1500px]">
+
+        <div class="mb-14 text-center">
+
+          <p
+            class="
+              mb-4
+              font-mono
+              text-[11px]
+              uppercase
+              tracking-[.3em]
+              text-neutral-400
+            "
+          >
+            / let's work together
+          </p>
+
+
+          <h2
+            class="
+              mx-auto
+              max-w-5xl
+              text-[clamp(4rem,8vw,7.5rem)]
+              font-semibold
+              leading-[.86]
+              tracking-[-.07em]
+            "
+          >
+            Start Your
+            <br>
+            Automation Today.
+          </h2>
+
+
+          <p
+            class="
+              mx-auto
+              mt-7
+              max-w-xl
+              text-lg
+              leading-8
+              text-neutral-500
+            "
+          >
+            Share what you want to build,
+            automate or improve and I’ll
+            come back with the clearest
+            next step.
+          </p>
+
+        </div>
+
+
+
+        <div
+          class="
+            grid
+            gap-7
+            lg:grid-cols-[1.05fr_.95fr]
+          "
+        >
+
+          <form
+           id="contactForm"
+           action="https://formspree.io/f/xrppyvnk"
+           method="POST"
+           class="
+           rounded-[30px]
+           border
+           border-neutral-200
+           bg-white
+           p-7
+          "
+         >
+
+            <div class="grid gap-4 md:grid-cols-2">
+
+              <input
+                required
+                name="name"
+                placeholder="Your Name"
+                class="
+                  rounded-2xl
+                  border
+                  border-neutral-200
+                  px-5
+                  py-4
+                  outline-none
+                  focus:border-purple-500
+                "
+              >
+
+
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                class="
+                  rounded-2xl
+                  border
+                  border-neutral-200
+                  px-5
+                  py-4
+                  outline-none
+                  focus:border-purple-500
+                "
+              >
+
+            </div>
+
+
+
+            <select
+              name="service"
+              class="
+                mt-4
+                w-full
+                rounded-2xl
+                border
+                border-neutral-200
+                bg-white
+                px-5
+                py-4
+                outline-none
+                focus:border-purple-500
+              "
+            >
+
+              <option value="">
+                Service You Need
+              </option>
+
+              <option>
+                Website / Funnel
+              </option>
+
+              <option>
+                CRM & Automation
+              </option>
+
+              <option>
+                AI Automation
+              </option>
+
+              <option>
+                Course / Community
+              </option>
+
+              <option>
+                Email / Lifecycle
+              </option>
+
+            </select>
+
+
+
+            <textarea
+              required
+              name="message"
+              rows="7"
+              placeholder="Tell me about your project..."
+              class="
+                mt-4
+                w-full
+                resize-none
+                rounded-2xl
+                border
+                border-neutral-200
+                px-5
+                py-4
+                outline-none
+                focus:border-purple-500
+              "
+            ></textarea>
+
+
+
+            <button
+              type="submit"
+              class="
+                mt-4
+                w-full
+                rounded-2xl
+                bg-neutral-950
+                px-6
+                py-4
+                font-semibold
+                text-white
+                transition
+                hover:bg-purple-600
+              "
+            >
+              Send Message →
+            </button>
+
+          </form>
+
+
+
+          <div class="space-y-4">
+
+
+            <div
+              class="
+                rounded-[30px]
+                bg-neutral-950
+                p-8
+                text-white
+              "
+            >
+
+              <div class="flex items-center gap-2 text-sm">
+
+                <span
+                  class="
+                    h-3
+                    w-3
+                    rounded-full
+                    bg-emerald-400
+                    shadow-[0_0_18px_rgba(52,211,153,.9)]
+                  "
+                ></span>
+
+                Currently Available
+
+              </div>
+
+
+              <h3 class="mt-6 text-2xl font-semibold">
+                Ready to start a new project.
+              </h3>
+
+            </div>
+
+
+
+            <a
+              href="mailto:torgioarmani@gmail.com"
+              class="
+                flex
+                items-center
+                gap-5
+                rounded-[24px]
+                border
+                border-neutral-200
+                bg-white
+                p-6
+                transition
+                hover:-translate-y-1
+                hover:border-purple-300
+              "
+            >
+
+              <span class="text-2xl">
+                ✉
+              </span>
+
+
+              <div>
+
+                <div
+                  class="
+                    font-mono
+                    text-[9px]
+                    uppercase
+                    tracking-[.18em]
+                    text-neutral-400
+                  "
+                >
+                  Email
+                </div>
+
+                <div class="mt-1">
+                  torgioarmani@gmail.com
+                </div>
+
+              </div>
+
+            </a>
+
+
+
+            <a
+              href="https://wa.me/2349035245328"
+              target="_blank"
+              class="
+                flex
+                items-center
+                gap-5
+                rounded-[24px]
+                border
+                border-neutral-200
+                bg-white
+                p-6
+                transition
+                hover:-translate-y-1
+                hover:border-purple-300
+              "
+            >
+
+              <span class="text-2xl">
+                ◉
+              </span>
+
+
+              <div>
+
+                <div
+                  class="
+                    font-mono
+                    text-[9px]
+                    uppercase
+                    tracking-[.18em]
+                    text-neutral-400
+                  "
+                >
+                  WhatsApp
+                </div>
+
+
+                <div class="mt-1">
+                  +234 903 ### ####
+                </div>
+
+              </div>
+
+            </a>
+
+
+
+            <a
+              href="https://www.linkedin.com/in/torgio-donubari-60322617a/"
+              target="_blank"
+              class="
+                flex
+                items-center
+                gap-5
+                rounded-[24px]
+                border
+                border-neutral-200
+                bg-white
+                p-6
+                transition
+                hover:-translate-y-1
+                hover:border-purple-300
+              "
+            >
+
+              <span class="text-2xl">
+                in
+              </span>
+
+
+              <div>
+
+                <div
+                  class="
+                    font-mono
+                    text-[9px]
+                    uppercase
+                    tracking-[.18em]
+                    text-neutral-400
+                  "
+                >
+                  LinkedIn
+                </div>
+
+
+                <div class="mt-1">
+                  Connect on LinkedIn
+                </div>
+
+              </div>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer
+    data-dark-section
+    class="
+      overflow-hidden
+      bg-[#101013]
+      text-white
+    "
+  >
+
+    <div class="footer-marquee py-8">
+
+      <div class="footer-track">
+
+        <div
+          class="
+            flex
+            items-center
+            gap-5
+            pr-5
+            text-5xl
+            font-semibold
+            tracking-[-.05em]
+            md:text-7xl
+          "
+        >
+
+          <span class="text-white">
+            Let's Automate
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white/75">
+            Let's Build
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white">
+            Let's Automate
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white/75">
+            Let's Build
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+        </div>
+
+
+
+        <div
+          aria-hidden="true"
+          class="
+            flex
+            items-center
+            gap-5
+            pr-5
+            text-5xl
+            font-semibold
+            tracking-[-.05em]
+            md:text-7xl
+          "
+        >
+
+          <span class="text-white">
+            Let's Automate
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white/75">
+            Let's Build
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white">
+            Let's Automate
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+          <span class="text-white/75">
+            Let's Build
+          </span>
+
+          <span class="text-purple-500">
+            ✱
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div
+      class="
+        mx-auto
+        grid
+        max-w-[1500px]
+        gap-12
+        px-5
+        py-16
+        md:px-10
+        lg:grid-cols-[1.2fr_.7fr_.7fr]
+      "
+    >
+
+      <div>
+
+        <div
+          class="
+            flex
+            h-11
+            w-11
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-purple-300/40
+            bg-purple-500/10
+            font-mono
+            text-xs
+            text-purple-300
+          "
+        >
+          TD
+        </div>
+
+
+        <h3 class="mt-6 text-2xl font-semibold">
+          Torgio Donubari
+        </h3>
+
+
+        <p
+          class="
+            mt-4
+            max-w-md
+            leading-7
+            text-white/45
+          "
+        >
+          Digital systems, websites,
+          funnels, online courses and
+          AI automations designed to
+          make businesses easier to run.
+        </p>
+
+      </div>
+
+
+
+      <div>
+
+        <p
+          class="
+            mb-6
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[.2em]
+            text-white/35
+          "
+        >
+          Navigation
+        </p>
+
+
+        <nav class="flex flex-col gap-5 text-white/60">
+
+          <a href="#services" class="hover:text-white">
+            Services
+          </a>
+
+          <a href="#work" class="hover:text-white">
+            Work
+          </a>
+
+          <a href="#process" class="hover:text-white">
+            Process
+          </a>
+
+          <a href="#about" class="hover:text-white">
+            About
+          </a>
+
+          <a href="#contact" class="hover:text-white">
+            Contact
+          </a>
+
         </nav>
-        <p>Copyright © 2023 Torgio Donubari. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+
+      </div>
+
+
+
+      <div>
+
+        <p
+          class="
+            mb-6
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[.2em]
+            text-white/35
+          "
+        >
+          Contact
+        </p>
+
+
+        <div class="flex flex-col gap-5 text-white/60">
+
+          <a
+            href="mailto:torgioarmani@gmail.com"
+            class="hover:text-white"
+          >
+            torgioarmani@gmail.com
+          </a>
+
+
+          <a
+            href="https://wa.me/2349035245328"
+            target="_blank"
+            class="hover:text-white"
+          >
+            WhatsApp
+          </a>
+
+
+          <a
+            href="https://www.linkedin.com/in/torgio-donubari-60322617a/"
+            target="_blank"
+            class="hover:text-white"
+          >
+            LinkedIn
+          </a>
+
+
+          <a
+            href="#contact"
+            class="
+              mt-3
+              inline-flex
+              w-fit
+              rounded-full
+              border
+              border-white/20
+              px-5
+              py-3
+              text-sm
+              text-white
+              transition
+              hover:border-purple-400
+              hover:text-purple-300
+            "
+          >
+            Start a Project
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div
+      class="
+        mx-auto
+        flex
+        max-w-[1500px]
+        flex-col
+        gap-3
+        border-t
+        border-white/10
+        px-5
+        py-6
+        text-xs
+        text-white/30
+        md:flex-row
+        md:items-center
+        md:justify-between
+        md:px-10
+      "
+    >
+
+      <span>
+        © <span id="year"></span> Torgio Donubari
+      </span>
+
+      <span>
+        Digital Systems · AI Automation · Growth
+      </span>
+
+    </div>
+
+  </footer>
+
+
+
+  <script src="app.js"></script>
+
 </body>
 </html>
